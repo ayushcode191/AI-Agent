@@ -28,7 +28,7 @@ A full-stack AI Agent built using **Google Gemini API** and **Node.js**, designe
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/multitool-ai-assistant.git
+git clone https://github.com/ayushcode191/AI-Agent.git
 cd multitool-ai-assistant
 ```
 
