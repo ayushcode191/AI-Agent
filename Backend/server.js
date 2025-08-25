@@ -25,6 +25,28 @@ function prime({ num }) {
   return true;
 }
 
+async function getWeather({ city }) {
+  try {
+    const apiKey = process.env.OPENWEATHER_KEY; 
+    const response = await fetch(
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}&units=metric`
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch weather data");
+    }
+
+    const data = await response.json();
+    const temp = data.main.temp;
+    const desc = data.weather[0].description;
+
+    return `🌤️ Weather in ${city}: ${temp}°C, ${desc}`;
+  } catch (err) {
+    return `⚠️ Error fetching weather for "${city}": ${err.message}`;
+  }
+}
+
+
 
 async function getCryptoPrice({ coin }) {
   const coinId = coin.toLowerCase();
@@ -87,11 +109,23 @@ const cryptoDeclaration = {
     required: ['coin']
   }
 };
+const weatherDeclaration = {
+  name: 'getWeather',
+  description: "Get the current weather of a city",
+  parameters: {
+    type: 'OBJECT',
+    properties: {
+      city: { type: 'STRING', description: 'Name of the city like London' }
+    },
+    required: ['city']
+  }
+};
 
 const availableTools = {
   sum,
   prime,
-  getCryptoPrice
+  getCryptoPrice,
+  getWeather
 };
 
 app.post('/ask', async (req, res) => {
